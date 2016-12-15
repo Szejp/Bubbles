@@ -5,19 +5,23 @@ public class OnTouch : MonoBehaviour {
 
 
     public float _scaleFactor = 0.01f;
-    public int _countLimit = 3;
-    public GameObject _particle;
+    public int _countLimit = 1;
+    public EffectGeneratorController _effectGeneratorController;
 
     private bool isSizeChanging = false;
     private int count = 0;
 
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        if (_effectGeneratorController == null)
+        {
+            _effectGeneratorController = GameObject.Find("EffectGenerator").GetComponent< EffectGeneratorController>();
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 
 
     }
@@ -46,8 +50,7 @@ public class OnTouch : MonoBehaviour {
         if(count == _countLimit)
         {
             DestroyObject(gameObject, 0.01f);
-            GameObject copy = Instantiate(_particle, gameObject.transform.position, new Quaternion()) as GameObject;
-            Destroy(copy, copy.GetComponent<ParticleSystem>().duration);
+            _effectGeneratorController.CreateVisualEffectOnPosition(_effectGeneratorController._particle, gameObject.transform.position);
         }
     }
 }

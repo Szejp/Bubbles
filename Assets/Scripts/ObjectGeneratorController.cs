@@ -26,7 +26,7 @@ public class ObjectGeneratorController : MonoBehaviour {
 
         while (true)
         {
-            var position = gameObject.transform.position + new Vector3(Random.Range(-5, 5), 0, 0);
+            var position = GetRandomPositionForObject(ball);
             Instantiate(ball, position, gameObject.transform.rotation);
             yield return new WaitForSeconds(_waitTime);
 
@@ -34,6 +34,20 @@ public class ObjectGeneratorController : MonoBehaviour {
             if (_waitTime > 0.5f)
             {
                 _waitTime -= 0.1f;
+            }
+        }
+    }
+
+    Vector3 GetRandomPositionForObject(GameObject obj)
+    {
+        while (true)
+        {            
+            var position = gameObject.transform.position + new Vector3(Random.Range(-5, 5), 0, 0);
+            var isColliderOnPosition = Physics.CheckSphere(position, obj.GetComponent<SphereCollider>().radius);
+
+            if (!isColliderOnPosition)
+            {
+                return position;
             }
         }
     }
