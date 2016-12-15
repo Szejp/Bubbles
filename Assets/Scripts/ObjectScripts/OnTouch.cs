@@ -8,16 +8,20 @@ public class OnTouch : MonoBehaviour {
     public int _countLimit = 1;
     public EffectGeneratorController _effectGeneratorController;
 
+
     private bool isSizeChanging = false;
     private int count = 0;
+    private PlaySound playSound;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         if (_effectGeneratorController == null)
         {
             _effectGeneratorController = GameObject.Find("EffectGenerator").GetComponent< EffectGeneratorController>();
         }
+
+        playSound = gameObject.GetComponent<PlaySound>();
     }
 
     // Update is called once per frame
@@ -49,8 +53,17 @@ public class OnTouch : MonoBehaviour {
     {
         if(count == _countLimit)
         {
-            DestroyObject(gameObject, 0.01f);
+            playSound.Play(playSound._clip);
+            WaitForObjectToPlaySoundThenDestroy(gameObject);
             _effectGeneratorController.CreateVisualEffectOnPosition(_effectGeneratorController._particle, gameObject.transform.position);
         }
+    }
+
+    void WaitForObjectToPlaySoundThenDestroy(GameObject gameObject)
+    {
+        gameObject.GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<Collider>().enabled = false;
+        var time = gameObject.GetComponent<AudioSource>().clip.length;
+        DestroyObject(gameObject, time);
     }
 }
