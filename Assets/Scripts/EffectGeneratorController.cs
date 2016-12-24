@@ -3,8 +3,6 @@ using System.Collections;
 
 public class EffectGeneratorController : MonoBehaviour {
 
-    public GameObject _particle;
-
     public void CreateVisualEffectOnPosition(GameObject effect, Vector3 position)
     {
         GameObject copy = Instantiate(effect, position, new Quaternion()) as GameObject;

@@ -4,6 +4,8 @@ using System.Collections;
 public class ObjectGeneratorController : MonoBehaviour {
 
     public GameObject[] _balls;
+    public float _maxBubbleSize = 1.5f;
+    public float _minBubleSize = 0.5f;
 
     private float _waitTime = 2f;
     private int positionZFactor = 0;
@@ -21,15 +23,25 @@ public class ObjectGeneratorController : MonoBehaviour {
   
 	}
 
+    Vector3 GetRandomBubbleScale()
+    {
+        var scale = Random.Range(_minBubleSize, _maxBubbleSize);
+        return new Vector3(scale, scale, scale);
+    }
+
     IEnumerator GenerateObjects()
     {
         var ball = _balls[0];
 
         while (true)
         {
+
+            ball.transform.localScale = GetRandomBubbleScale();
             ChangeZFactor();
+
             var position = GetRandomPositionForObject(ball);
             Instantiate(ball, position, gameObject.transform.rotation);
+
             yield return new WaitForSeconds(_waitTime);
 
 

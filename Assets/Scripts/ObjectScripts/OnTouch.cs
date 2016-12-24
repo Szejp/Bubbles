@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OnTouch : MonoBehaviour {
+public class OnTouch : MonoBehaviour
+{
 
 
     public float _scaleFactor = 0.01f;
     public int _countLimit = 1;
     public EffectGeneratorController _effectGeneratorController;
+    public GameObject _destroyEffect;
 
 
     private bool isSizeChanging = false;
@@ -14,18 +16,20 @@ public class OnTouch : MonoBehaviour {
     private PlaySound playSound;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         if (_effectGeneratorController == null)
         {
-            _effectGeneratorController = GameObject.Find("EffectGenerator").GetComponent< EffectGeneratorController>();
+            _effectGeneratorController = GameObject.Find("EffectGenerator").GetComponent<EffectGeneratorController>();
         }
 
         playSound = gameObject.GetComponent<PlaySound>();
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
 
     }
@@ -40,30 +44,30 @@ public class OnTouch : MonoBehaviour {
     }
 
     IEnumerator ChangeSize()
-    {        
+    {
         isSizeChanging = true;
         gameObject.transform.localScale -= new Vector3(_scaleFactor, _scaleFactor, _scaleFactor);
         count++;
         yield return new WaitForSeconds(0.1f);
         gameObject.transform.localScale += new Vector3(_scaleFactor, _scaleFactor, _scaleFactor);
-        isSizeChanging = false;        
+        isSizeChanging = false;
     }
 
     void Destroy()
     {
-        if(count == _countLimit)
+        if (count == _countLimit)
         {
             playSound.Play(playSound._clip);
-            WaitForObjectToPlaySoundThenDestroy(gameObject);
-            _effectGeneratorController.CreateVisualEffectOnPosition(_effectGeneratorController._particle, gameObject.transform.position);
+            _destroyEffect.SetActive(true);
+            WaitForObjectToEmmitEffectThenDestroy(gameObject);
         }
     }
 
-    void WaitForObjectToPlaySoundThenDestroy(GameObject gameObject)
+    void WaitForObjectToEmmitEffectThenDestroy(GameObject gameObject)
     {
         gameObject.GetComponent<Renderer>().enabled = false;
         gameObject.GetComponent<Collider>().enabled = false;
-        var time = gameObject.GetComponent<AudioSource>().clip.length;
+        var time = _destroyEffect.GetComponent<ParticleSystem>().duration;
         DestroyObject(gameObject, time);
     }
 }
