@@ -54,10 +54,12 @@ public class ObjectGeneratorController : MonoBehaviour {
 
     Vector3 GetRandomPositionForObject(GameObject obj)
     {
+
+        var positionXRange = VariableContainer.RightBorder - 1f;
         
         while (true)
         {                  
-            var position = gameObject.transform.position + new Vector3(Random.Range(-5, 5), 0, positionZFactor);
+            var position = gameObject.transform.position + new Vector3(Random.Range(-positionXRange, positionXRange), 0, positionZFactor);
             var isColliderOnPosition = Physics.CheckSphere(position, obj.GetComponent<SphereCollider>().radius);
 
             if (!isColliderOnPosition)
