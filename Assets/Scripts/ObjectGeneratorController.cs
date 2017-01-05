@@ -43,12 +43,7 @@ public class ObjectGeneratorController : MonoBehaviour {
             Instantiate(ball, position, gameObject.transform.rotation);
 
             yield return new WaitForSeconds(_waitTime);
-
-
-            if (_waitTime > 0.5f)
-            {
-                _waitTime -= 0.1f;
-            }
+            _waitTime = Random.Range(0.5f, _waitTime);
         }
     }
 
