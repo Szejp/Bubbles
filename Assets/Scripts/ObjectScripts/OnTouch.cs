@@ -18,7 +18,6 @@ public class OnTouch : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         if (_effectGeneratorController == null)
         {
             _effectGeneratorController = GameObject.Find("EffectGenerator").GetComponent<EffectGeneratorController>();
@@ -36,7 +35,7 @@ public class OnTouch : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (Input.GetMouseButton(0) && !isSizeChanging)
+        if (Input.GetMouseButtonDown(0) && !isSizeChanging)
         {
             StartCoroutine(ChangeSize());
             Destroy();

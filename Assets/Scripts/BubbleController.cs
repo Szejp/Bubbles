@@ -54,7 +54,6 @@ public class BubbleController : MonoBehaviour {
         while (true)
         {
             var x = transform.position.x;
-            //var oppositeForceFactor = -1 * (float)Mathf.Pow(transform.position.x, 2) * Mathf.Sign(x);
             var oppositeForceFactor = -2 * x / VariableContainer.RightBorder; 
             var vector = (Random.insideUnitCircle + new Vector2(oppositeForceFactor, 0)) * _forceScale;
             vector.y = 0;
